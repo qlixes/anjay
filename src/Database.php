@@ -17,16 +17,16 @@ class Database
                 . "charset=" . $config['charset'] . ";" 
                 . "dbname=" . $config['db'],
                 $config['user'],
-                $config['pass'],
-                array(
-                    PDO::ATTR_EMULATE_PREPARES=>false,
-                    PDO::MYSQL_ATTR_DIRECT_QUERY=>false,
-                    PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION
-                )
+                $config['pass']
+                // array(
+                //     PDO::ATTR_EMULATE_PREPARES=>false,
+                //     PDO::MYSQL_ATTR_DIRECT_QUERY=>false,
+                //     PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION
+                // )
             );
 
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            // $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            // $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
         } catch (PDOException $e)
         {
@@ -42,7 +42,8 @@ class Database
 
         $this->status = ($result);
 
-        $this->result = ($stmt->rowCount() > 1) ? $stmt->fetchAll(PDO::FETCH_ASSOC) : $stmt->fetch(PDO::FETCH_ASSOC);
+        // $this->result = ($stmt->rowCount() > 1) ? $stmt->fetchAll(PDO::FETCH_ASSOC) : $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $this;
     }

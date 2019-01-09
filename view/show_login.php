@@ -5,13 +5,14 @@
 			<form method="POST" action="<?= base_url('show_login') ?>">
 				<div class="form-group">
 					<label><?= $label_search_login ?></label>
-					<select data-live-search="true" data-live-search-style="startsWith" class="form-control selectpicker" name="select_user">
+					<select data-live-search="true" data-live-search-style="startsWith" class="form-control selectpicker" name="select_user" id="select_user">
 					<?php foreach($data_login[1] as $data): ?>
 						<option value="<?= $data['id'] ?>"><?= $data['user_name'] ?></option>
 					<?php endforeach ?>
 					</select>
+					<input type="hidden" name="select_login_hidden" id="select_login_hidden">
 				</div>
-				<input class="btn-block" type="submit" name="form_search_login" value="<?= $label_search_login ?>"/>
+				<button type="submit" class="btn-block" type="submit" name="btn_search_login" value="btn_search_login"><i class="fa fa-search"></i> <?= $label_search_login ?></button>
 			</form>
 		</div>
 		<div class="col-md-4 col-xs-4"></div>
@@ -42,7 +43,7 @@
 				</thead>
 				<tbody>
 					<?php $i = 1; ?>
-					<?php foreach($data_login[1] as $data): ?>
+					<?php foreach(join_array($data_login2[1]) as $data): ?>
 					<tr>
 						<td><?= $i ?></td>
 						<td><?= $data['user_name'] ?></td>

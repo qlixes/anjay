@@ -18,6 +18,7 @@
 
 			$('#select_dept_hidden').val($('#select_dept').find(':selected').text());
 			$('#select_empl_hidden').val($('#select_employee').find(':selected').text());
+			$('#select_login_hidden').val($('#select_user').find(':selected').text());
 
 			$('#select_dept').change(function () {
 
@@ -32,6 +33,10 @@
 
 	    	$('#select_employee').change(function() {
 	    		$('#select_empl_hidden').val($(this).find(':selected').text());
+	    	});
+
+	    	$('#select_user').change(function() {
+	    		$('#select_login_hidden').val($(this).find(':selected').text());
 	    	});
 
 		});

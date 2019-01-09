@@ -32,7 +32,8 @@ class Controller extends Common
 
 			if($data)
 			{
-				$_SESSION['user_name'] = $data['user_name'];
+				foreach($data as $dt)
+					$_SESSION['user_name'] = $dt['user_name'];
 
 				header("Location:" . base_url('dashboard'));
 			}
@@ -69,18 +70,14 @@ class Controller extends Common
 
 		if(!empty($this->session('user_name')))
 		{
-			$_POST['filter_employee'] = array_single($this->pdqa_model->get_user()[1], 'employee_id');
 			$this->data['user_name'] = $this->session('user_name');
 			$this->data['list_module'] = $this->pdqa_model->get_module_items();
 
 			$this->data['list_hrd_dept'] = $this->hrd_dept();
 			$this->data['list_hrd_empl'] = $this->hrd_employee();
 
-			unset($_POST['filter_employee']); // krn unused after filter
-
 			if(($this->input2('save_add_login') !== null))
 			{
-
 				$_POST['dept_id'] = $this->input2('select_dept');
 				$_POST['user_id'] = $this->input2('select_employee');
 
@@ -96,24 +93,21 @@ class Controller extends Common
 					$user['employee_id'] = $this->input2('select_employee');
 					$user['employee_name'] = $this->input2('select_empl_hidden');
 
-
 					foreach($this->data['list_module'] as $value)
 					{
 						$checked = (!empty($this->input2('list_check'))) ? $this->input2('list_check') : $this->data['list_module'];
 					
-						$user[$value['module_']] = in_array($value['module_name'], $checked)  ? 1 : 0;
+						$user[$value] = in_array($value, $checked)  ? 1 : 0;
 					}
-
-					$this->pdqa_model->connector = $this->connector($this->db['default']); //buggy
 					
+					$this->pdqa_model->connector = $this->connector($this->db['default']); //buggy
 					list($user_status, $user_id) = $this->pdqa_model->add_user($user, $this->request('id'));
 
-					var_dump('lanjutan kondisi match antara dept_id dengan empl_id');
+					header('Location: ' . base_url('show_login'));
 				}
-
-				// header('Location:' . base_url('add_login'));
-				var_dump('lanjutan diklik save');
 			}
+
+			if($this->input2(''))
 
 			$this->templates('view/add_login', $this->data);
 		}
@@ -127,6 +121,18 @@ class Controller extends Common
 		{
 			$this->data['user_name'] = $this->session('user_name');
 			$this->data['data_login'] = $this->pdqa_model->get_user();
+
+			if($this->input2('btn_search_login') !== null)
+			{
+				$this->data['data_login2'] = $this->pdqa_model->get_user(array(
+					'user_names'	=>	$this->input2('select_login_hidden') . "%"
+				));
+
+				$this->templates('view/show_login', $this->data);							
+			}
+
+			if(empty($this->data['data_login2']))
+				$this->data['data_login2'] = $this->data['data_login'];
 
 			$this->templates('view/show_login', $this->data);
 		}
@@ -206,7 +212,7 @@ class Controller extends Common
 		$model = $this->hrd_model->get_v_dept_employee(array(
 			'dept_id'	=>	$this->input2('dept_id'),
 			'user_id'	=>	$this->input2('user_id'),
-			'filter'	=>	$this->input2('filter_employee')
+			// 'filter'	=>	$this->input2('filter_employee')
 		));
 
 		return $model[1];

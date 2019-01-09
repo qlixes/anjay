@@ -83,6 +83,18 @@ class Common extends \stdClass
 		return (!empty($_POST[$alias])) ? $_POST[$alias] : null;
 	}
 
+	function input3($alias = null)
+	{
+		if($alias)
+		{
+			if ( ! preg_match("/^[a-z0-9:_\/-]+$/i", $alias))
+			die('Disallowed Key Characters.');
+
+			$data = $_POST[$alias];
+		}
+		return ($data) ? $data : $_POST;
+	}
+
 	function request($alias)
 	{
 		if ( ! preg_match("/^[a-z0-9:_\/-]+$/i", $alias))

@@ -92,3 +92,8 @@ function array_single($data = array(), $field)
 	unset($data); unset($field);
 	return implode($tmp,',');
 }
+
+function join_array($array2 = array())
+{
+	return array_merge(array(), $array2);
+}

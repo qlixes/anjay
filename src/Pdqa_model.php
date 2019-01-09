@@ -56,7 +56,7 @@ class Pdqa_model
 			$sql .= " where " . implode($where, " and ");
 
 		$sql .= ";";
-		
+
 		$query = $this->connector->read($sql, parse_array($params));
 
 		return array($query->status(), $query->results());
