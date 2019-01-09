@@ -42,6 +42,8 @@ class Pdqa_model
 	{
 		$where = array();
 		$sql = "select * from tbl_user";
+		if(!empty($params['id']))
+			$where[] = "id = ?";
 		if(!empty($params['dept_id']))
 			$where[] = "dept_id = ?";
 		if(!empty($params['user_name']))
@@ -56,6 +58,8 @@ class Pdqa_model
 			$sql .= " where " . implode($where, " and ");
 
 		$sql .= ";";
+
+		// var_dump($sql); var_dump($params);
 
 		$query = $this->connector->read($sql, parse_array($params));
 

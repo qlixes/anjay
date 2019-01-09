@@ -23,11 +23,11 @@
 				</div>
 				<div class="form-group">
 					<label><?= $label_input_login_user_name ?></label>
-					<input type="text" class="form-control" name="user_name" placeholder="<?= $label_input_login_user_name ?>" autocomplete="off">
+					<input type="text" class="form-control" name="user_name" placeholder="<?= $label_input_login_user_name ?>" autocomplete="off" value="<?= $user_name ?>">
 				</div>
 				<div class="form-group">
 					<label><?= $label_input_login_user_pass ?></label>
-					<input type="password" class="form-control" name="user_pass" placeholder="<?= $label_input_login_user_pass ?>" autocomplete="off">
+					<input type="password" class="form-control" name="user_pass" placeholder="<?= $label_input_login_user_pass ?>" autocomplete="off" value="<?= @$user_pass ?>">
 				</div>
 				<div class="form-group">
 					<?php foreach($list_module as $module): ?>

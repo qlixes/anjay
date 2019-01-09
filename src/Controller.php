@@ -76,6 +76,29 @@ class Controller extends Common
 			$this->data['list_hrd_dept'] = $this->hrd_dept();
 			$this->data['list_hrd_empl'] = $this->hrd_employee();
 
+			if(!empty($this->request('id')))
+			{
+				$this->pdqa_model->connector = $this->connector($this->db['default']);
+				list($status, $pull) = $this->pdqa_model->get_user(array(
+					'id'	=>	$this->request('id')
+				));
+
+				$this->data['list_hrd_dept'] = array('dept_id' => $pull['department_id'], 'dept_name' => $pull['department_name']);
+				$this->data['list_hrd_empl'] = array('user_id' => $pull['employee_id'], 'dept_id' => $pull['department_id']);
+				$this->data['user_name'] = $pull['user_name'];
+				$this->data['user_pass'] = '';
+				$this->data['list_module'] = array(
+					'module_master_user' => $pull['module_master_user'],
+					'module_master_standar_analisa' => $pull['module_master_standar_analisa'],
+					'module_master_form_analisa' => $pull['module_master_form_analisa'],
+					'module_master_form_analisa_ro3' => $pull['module_master_form_analisa_ro3'],
+					'module_report_analisa' => $pull['module_report_analisa'],
+					'module_report_analisa_ro3' => $pull['module_report_analisa_ro3']
+				);
+
+				$this->templates('add_login', $this->data);
+			}
+
 			if(($this->input2('save_add_login') !== null))
 			{
 				$_POST['dept_id'] = $this->input2('select_dept');
@@ -106,8 +129,6 @@ class Controller extends Common
 					header('Location: ' . base_url('show_login'));
 				}
 			}
-
-			if($this->input2(''))
 
 			$this->templates('view/add_login', $this->data);
 		}
