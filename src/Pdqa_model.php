@@ -2,7 +2,7 @@
 
 class Pdqa_model
 {
-	var $connector;
+	var $database;
 
 	function get_module($params = array())
 	{
@@ -16,7 +16,7 @@ class Pdqa_model
 
 		$sql .= ";";
 
-		$query = $this->connector->read($sql, parse_array($params));
+		$query = $this->database->read($sql, parse_array($params));
 
 		return array($query->status(), $query->results());
 	}
@@ -33,7 +33,7 @@ class Pdqa_model
 
 		$sql .= ";";
 
-		$query = $this->connector->read($sql, parse_array($params));
+		$query = $this->database->read($sql, parse_array($params));
 
 		return array($query->status(), $query->results());
 	}
@@ -42,7 +42,7 @@ class Pdqa_model
 	{
 		$where = array();
 		$sql = "select * from tbl_user";
-		if(!empty($params['id']))
+		if(!empty($params['user_id']))
 			$where[] = "id = ?";
 		if(!empty($params['dept_id']))
 			$where[] = "dept_id = ?";
@@ -59,9 +59,11 @@ class Pdqa_model
 
 		$sql .= ";";
 
-		// var_dump($sql); var_dump($params);
+		$query = $this->database->read($sql, parse_array($params));
 
-		$query = $this->connector->read($sql, parse_array($params));
+		// var_dump($this->database->pdo->prepare('select * from master_employee;')->execute());
+
+		// var_dump($sql); var_dump($params); var_dump($query);
 
 		return array($query->status(), $query->results());
 	}
@@ -83,7 +85,7 @@ class Pdqa_model
 
 		$sql .= ";";
 
-		$query = $this->connector->edit($sql, parse_array($params));
+		$query = $this->database->edit($sql, parse_array($params));
 
 		return array($query->status(), $query->insertId());
 	}
@@ -105,7 +107,7 @@ class Pdqa_model
 
 		$sql .= ";";
 
-		$query = $this->connector->edit($sql, parse_array($params));
+		$query = $this->database->edit($sql, parse_array($params));
 
 		return array($query->status(), $query->insertId());
 	}
@@ -142,7 +144,7 @@ class Pdqa_model
 
 		$sql .= ";";
 
-		$query = $this->connector->read($sql, parse_array($params));
+		$query = $this->database->read($sql, parse_array($params));
 
 		return array($query->status(), $query->results());
 	}

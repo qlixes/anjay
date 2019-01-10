@@ -7,6 +7,7 @@ class Database
     
     function connect($config = array())
     {
+        // var_dump($config);
         try
         {
             // var_dump($config);

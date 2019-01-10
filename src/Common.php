@@ -19,16 +19,6 @@ class Common extends \stdClass
 	function _view($view)
 	{
 		$this->include_file("{$view}.php");
-		// $this->require_file("{$view}.php");
-	}
-
-	function connector($config = array())
-	{
-		$connector = $this->_load_class('database');
-
-		$connector->connect($config);
-
-		return $connector;
 	}
 
 	function templates($content, $data = array(), $return = false)
@@ -40,14 +30,11 @@ class Common extends \stdClass
 
 		ob_start();
 
-		// foreach($content as $page)
-		// 	$this->_view($page);
 
 		foreach($content as $page)
 			include_once("{$page}.php");
 
 		$template = ob_get_contents();
-		// $template = file_get_contents($temp);
 
 		ob_end_flush();
 
@@ -59,8 +46,13 @@ class Common extends \stdClass
 
 	function model($model = array())
 	{
-		foreach($model as $models)
+		require SYSPATH . 'Database.php';
+		foreach($model as $models => $config)
+		{
 			$this->{$models} = $this->_load_class($models);
+			$this->{$models}->database =& new Database();
+			$this->{$models}->database->connect($config);
+		}
 	}
 
 	function input($alias) //jika ada munculkan jk tdk isi dengan null
@@ -88,7 +80,7 @@ class Common extends \stdClass
 		if($alias)
 		{
 			if ( ! preg_match("/^[a-z0-9:_\/-]+$/i", $alias))
-			die('Disallowed Key Characters.');
+				die('Disallowed Key Characters.');
 
 			$data = $_POST[$alias];
 		}
@@ -108,10 +100,15 @@ class Common extends \stdClass
 		if ( ! preg_match("/^[a-z0-9:_\/-]+$/i", $alias))
 			die('Disallowed Key Characters.');
 
-		if(empty($_SESSION[$alias]))
-			return null;
+		return (!empty($_SESSION[$alias])) ? $_SESSION[$alias] : null;
+	}
 
-		return $_SESSION[$alias];
+	function set_session($array = array())
+	{
+		foreach($array as $key => $value)
+		{
+			
+		}
 	}
 
 	function config($config = array())

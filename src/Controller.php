@@ -11,9 +11,11 @@ class Controller extends Common
 		$this->config(array('db','lang'));
 		$this->data = array_merge($this->data, $this->lang);
 
-		$this->model(array('pdqa_model','hrd_model','products_model'));
-
-		$this->pdqa_model->connector = $this->connector($this->db['default']);
+		$this->model(array(
+			'pdqa_model' => $this->db['default'],
+			'hrd_model' => $this->db['hrd'],
+			'products_model' => $this->db['default']
+		));
 	}
 
 	function index()
@@ -26,16 +28,22 @@ class Controller extends Common
 	{
 		session_start();
 
-		if($this->input2('login_button'))
+		if($this->input2('login_button_signin'))
 		{
-			list($status, $data) = $this->pdqa_login();
+			list($status, $data) = $this->pdqa_model->get_user(array(
+				'user_name' => $this->input2('login_input_user'),
+				'user_pass' => password($this->input2('login_input_pass')),
+				'is_active'	=> 1
+			));
 
 			if($data)
 			{
 				foreach($data as $dt)
-					$_SESSION['user_name'] = $dt['user_name'];
+				{
+				}
 
-				header("Location:" . base_url('dashboard'));
+
+				header("Location:" . base_url('dashboard'), $this->data);
 			}
 		}
 
@@ -78,7 +86,6 @@ class Controller extends Common
 
 			if(!empty($this->request('id')))
 			{
-				$this->pdqa_model->connector = $this->connector($this->db['default']);
 				list($status, $pull) = $this->pdqa_model->get_user(array(
 					'id'	=>	$this->request('id')
 				));
@@ -192,73 +199,5 @@ class Controller extends Common
 
 			$this->templates('view/add_standar_analisa', $this->data);
 		}
-	}
-
-	// AJAX
-	// jika mau dijadikan api, add override methods
-	// pdqa_login() menjadi pdqa_login_json()
-	// dengan menjadi body : echo json_encode($this->pdqa_login());
-	function pdqa_login()
-	{
-		$model = $this->pdqa_model->get_user(array(
-			'user_name'	=>	$this->input2('user_name'),
-			'user_pass'	=>	password($this->input2('user_pass')),
-			'is_active'	=>	1, // for active user only
-		));
-		return $model;
-	}
-
-	function pdqa_login_module()
-	{
-		$model = $this->pdqa_model->get_module(array(
-			'module_label'	=>	$this->input2('module_label')
-		));
-
-		return $model[1];
-	}
-
-	function hrd_dept()
-	{
-		$this->hrd_model->connector = $this->connector($this->db['hrd']);
-		$model = $this->hrd_model->get_department(array(
-			'dept_id'	=>	$this->input('dept_id'),
-		));
-
-		return $model[1];
-	}
-
-	function hrd_employee()
-	{
-		$this->hrd_model->connector = $this->connector($this->db['hrd']);
-		$model = $this->hrd_model->get_v_dept_employee(array(
-			'dept_id'	=>	$this->input2('dept_id'),
-			'user_id'	=>	$this->input2('user_id'),
-			// 'filter'	=>	$this->input2('filter_employee')
-		));
-
-		return $model[1];
-	}
-
-	function pdqa_standar_analisa()
-	{
-		$model = $this->pdqa_model->get_master_standar_analisa($params = array());
-		return $model[1];
-	}
-
-	function pdqa_standar_analisa_items()
-	{
-		return $this->pdqa_model->get_standar_analisa_items();
-	}
-
-	function pdqa_standar_analisa_items_size()
-	{
-		$temp = array();
-		foreach($this->pdqa_model->get_standar_analisa_items() as $value)
-		{
-			$temp[] = strtolower("{$value}_min");
-			$temp[] = strtolower("{$value}_max");
-		}
-
-		return $temp;
 	}
 }

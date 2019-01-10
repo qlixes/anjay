@@ -2,7 +2,7 @@
 
 class Hrd_model
 {
-	var $connector;
+	var $database;
 
 	function get_employee($params = array())
 	{
@@ -19,7 +19,7 @@ class Hrd_model
 
 		$sql .= ";";
 
-		$query = $this->connector->read($sql, parse_array($params));
+		$query = $this->database->read($sql, parse_array($params));
 
 		return array($query->status(), $query->results());
 	}
@@ -39,7 +39,7 @@ class Hrd_model
 
 		$sql .= ";";
 
-		$query = $this->connector->read($sql, parse_array($params));
+		$query = $this->database->read($sql, parse_array($params));
 
 		return array($query->status(), $query->results());
 	}
@@ -61,7 +61,7 @@ class Hrd_model
 
 		$sql .= ";";
 
-		$query = $this->connector->read($sql, parse_array($params));
+		$query = $this->database->read($sql, parse_array($params));
 
 		return array($query->status(), $query->results());
 	}
