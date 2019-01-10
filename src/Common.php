@@ -103,12 +103,14 @@ class Common extends \stdClass
 		return (!empty($_SESSION[$alias])) ? $_SESSION[$alias] : null;
 	}
 
-	function set_session($array = array())
+	function session2($arr = array())
 	{
-		foreach($array as $key => $value)
-		{
-			
-		}
+		if(array_keys($arr) !== range(0, count($arr) - 1))
+			foreach($arr as $key => $value)
+				$_SESSION[$key] = $value;
+		else
+			foreach($arr as $key)
+				return array($_SESSION[$key]);
 	}
 
 	function config($config = array())

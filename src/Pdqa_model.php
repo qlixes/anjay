@@ -45,23 +45,24 @@ class Pdqa_model
 		if(!empty($params['user_id']))
 			$where[] = "id = ?";
 		if(!empty($params['dept_id']))
-			$where[] = "dept_id = ?";
+			$where[] = "department_id = ?";
 		if(!empty($params['user_name']))
 			$where[] = "user_name = ?";
 		if(!empty($params['user_names'])) //utk search user
 			$where[] = "user_name like ?";
+		if(!empty($params['empl_id']))
+			$where[] = "employee_id = ?";
 		if(!empty($params['user_pass']))
 			$where[] = "user_pass = ?";
 		if(!empty($params['is_active']))
 			$where[] = "is_active = ?";
+
 		if(count($where) >= 1)
 			$sql .= " where " . implode($where, " and ");
 
 		$sql .= ";";
 
 		$query = $this->database->read($sql, parse_array($params));
-
-		// var_dump($this->database->pdo->prepare('select * from master_employee;')->execute());
 
 		// var_dump($sql); var_dump($params); var_dump($query);
 

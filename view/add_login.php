@@ -23,7 +23,7 @@
 				</div>
 				<div class="form-group">
 					<label><?= $label_input_login_user_name ?></label>
-					<input type="text" class="form-control" name="user_name" placeholder="<?= $label_input_login_user_name ?>" autocomplete="off" value="<?= $user_name ?>">
+					<input type="text" class="form-control" name="user_name" placeholder="<?= $label_input_login_user_name ?>" autocomplete="off" value="<?= @$user_name ?>">
 				</div>
 				<div class="form-group">
 					<label><?= $label_input_login_user_pass ?></label>
@@ -31,14 +31,23 @@
 				</div>
 				<div class="form-group">
 					<?php foreach($list_module as $module): ?>
+					<?php $parser = "label_column_{$module}" ?>
 					<div class="col-md-6 col-xs-6">
 						<div class="checkbox">
-							<label><input type="checkbox" name="list_check[]" value="<?= $module ?>"><?= $module ?></label>
+							<label><input type="checkbox" name="list_check[]" value="<?= $module ?>"><?= $$parser ?></label>
 						</div>
 					</div>
 					<?php endforeach ?>
 				</div>
+<!-- 				<div class="row">
+					<div class="col-md-6 col-xs-6">
+						<div class="checkbox">
+							<label><input type="checkbox" name="is_active" <?= checkbox_state(@$is_active) ?>><?= $label_input_login_is_active ?></label>
+						</div>
+					</div>
+				</div> -->
 				<button type="submit" class="btn btn-primary" name="save_add_login" value="save_add_login"><i class="fa fa-save"></i> <?= $label_btn_save ?></button>
+				<a class="btn btn-warning" href="<?= base_url('module_master_user') ?>"><i class="fa fa-mail-reply"></i> <?= $label_btn_back ?></a>
 			</form>
 		</div>
 		<div class="col-md-3 col-xs-3"></div>

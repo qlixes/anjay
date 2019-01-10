@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-md-4 col-xs-4"></div>
 		<div class="col-md-4 col-xs-4">
-			<form method="POST" action="<?= base_url('show_login') ?>">
+			<form method="POST" action="<?= base_url('module_master_user') ?>">
 				<div class="form-group">
 					<label><?= $label_search_login ?></label>
 					<select data-live-search="true" data-live-search-style="startsWith" class="form-control selectpicker" name="select_user" id="select_user">
@@ -12,7 +12,8 @@
 					</select>
 					<input type="hidden" name="select_login_hidden" id="select_login_hidden">
 				</div>
-				<button type="submit" class="btn-block" type="submit" name="btn_search_login" value="btn_search_login"><i class="fa fa-search"></i> <?= $label_search_login ?></button>
+				<button type="submit" class="btn btn-success btn-block" type="submit" name="btn_search_login" value="btn_search_login"><i class="fa fa-search"></i> <?= $label_search_login ?></button>
+				<a class="btn btn-primary btn-block" href="<?= base_url('module_master_user') ?>"><i class="fa fa-refresh"></i> <?= $label_btn_refresh ?></a>
 			</form>
 		</div>
 		<div class="col-md-4 col-xs-4"></div>
@@ -32,10 +33,10 @@
 						<td><?= $label_column_username ?></td>
 						<td><?= $label_column_dept_id ?></td>
 						<td><?= $label_column_employee_id ?></td>
-						<td><?= $label_column_module_login ?></td>
-						<td><?= $label_column_module_standar_analisa ?></td>
-						<td><?= $label_column_module_form_analisa ?></td>
-						<td><?= $label_column_module_form_analisa_ro3 ?></td>
+						<td><?= $label_column_module_master_user ?></td>
+						<td><?= $label_column_module_master_standar_analisa ?></td>
+						<td><?= $label_column_module_master_form_analisa ?></td>
+						<td><?= $label_column_module_master_form_analisa_ro3 ?></td>
 						<td><?= $label_column_module_report_analisa ?></td>
 						<td><?= $label_column_module_report_analisa_ro3 ?></td>
 						<td colspan="2"><?= $label_column_action ?></td>

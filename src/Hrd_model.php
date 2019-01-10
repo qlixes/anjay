@@ -44,17 +44,17 @@ class Hrd_model
 		return array($query->status(), $query->results());
 	}
 
-	function get_v_dept_employee($params = array())
+	function get_dept_employee($params = array())
 	{
 		$where = array();
 		$sql = "select b.dept_id, b.dept_name, a.user_id, a.name from master_employee a";
 		$sql .= " left join master_department b on b.dept_id = a.default_deptid";
 		if(!empty($params['dept_id']))
 			$where[] = "b.dept_id = ?";
-		if(!empty($params['user_id']))
+		if(!empty($params['empl_id']))
 			$where[] = "a.user_id = ?";
 		if(!empty($params['filter']))
-			$where[] = "a.user_id not in (?)";
+			$where[] = "a.user_id not in (?)";	
 		
 		if(count($where) >= 1)
 			$sql .= " where " . implode($where, " and ");
@@ -62,6 +62,8 @@ class Hrd_model
 		$sql .= ";";
 
 		$query = $this->database->read($sql, parse_array($params));
+
+		// var_dump($query); var_dump($sql); var_dump($params);die();
 
 		return array($query->status(), $query->results());
 	}

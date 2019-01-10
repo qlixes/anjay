@@ -43,8 +43,8 @@ class Database
 
         $this->status = ($result);
 
-        // $this->result = ($stmt->rowCount() > 1) ? $stmt->fetchAll(PDO::FETCH_ASSOC) : $stmt->fetch(PDO::FETCH_ASSOC);
-        $this->result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $this->result = ($stmt->rowCount() > 1) ? $stmt->fetchAll(PDO::FETCH_ASSOC) : $stmt->fetch(PDO::FETCH_ASSOC);
+        // $this->result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $this;
     }
