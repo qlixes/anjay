@@ -113,6 +113,11 @@ class Common extends \stdClass
 				return array($_SESSION[$key]);
 	}
 
+	function session3($alias = null)
+	{
+		return (!empty($alias)) ? $_SESSION[$alias] : $_SESSION;
+	}
+
 	function config($config = array())
 	{
 		foreach($config as $configs)

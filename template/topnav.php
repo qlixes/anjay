@@ -8,9 +8,8 @@
     <div class="container">
       <div class="row">
         <ul class="nav nav-tabs navbar-right" role="navigation">
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
+          <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-home"></i> <?= $label_btn_home ?></a></li>
+          <li><a href="<?= base_url('logout') ?>"><i class="fa fa-sign-out"></i> <?= $label_btn_logout ?></a></li>
         </ul>
       </div>
     </div>

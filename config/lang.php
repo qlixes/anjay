@@ -20,6 +20,7 @@ return array(
 	'label_input_user'	=>	"User",
 	'label_input_pass'	=>	"Password",
 	'label_search_login'	=>	"Search User",
+	'label_search_analisa'	=>	"Search Analisa Items",
 
 	'label_master_login'	=>	"Master Login",
 	'label_master_standar_analisa'	=>	"Master Standar Analisa",
@@ -41,9 +42,12 @@ return array(
 	'label_input_login_user_name'	=>	"Username",
 	'label_input_login_user_pass'	=>	"Password",
 	'label_input_login_is_active'	=>	"Active",
+	'label_input_standar_analisa_items' => "Standar analisa items",
 
 	'label_standar_analisa_min'	=>	"Min",
 	'label_standar_analisa_max'	=>	"Max",
 	'label_standar_analisa_items'	=>	"Items",
+
+	'label_standar_analisa_subtitle'	=>	"Standar analisa items",
 
 );

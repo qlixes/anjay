@@ -97,3 +97,19 @@ function join_array($array2 = array())
 {
 	return array_merge(array(), $array2);
 }
+
+function wrapper($arr = array())
+{
+	$tmp = array();
+	if(array_keys($arr) !== range(0, count($arr) - 1))
+		foreach($arr as $key => $value)
+			$tmp[] = $key;
+	else
+		$tmp = $arr;
+	return $tmp;
+}
+
+function formatQty($number)
+{
+
+}

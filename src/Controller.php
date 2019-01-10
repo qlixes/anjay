@@ -93,8 +93,8 @@ class Controller extends Common
 					'user_id'	=>	$this->request('id')
 				));
 
-				$this->data['list_hrd_dept'] = array('dept_id' => $pull['department_id'], 'dept_name' => $pull['department_name']);
-				$this->data['list_hrd_empl'] = array('user_id' => $pull['employee_id'], 'dept_id' => $pull['department_id']);
+				$this->data['list_hrd_dept'][] = array('dept_id' => $pull['department_id'], 'dept_name' => $pull['department_name']);
+				$this->data['list_hrd_empl'][] = array('user_id' => $pull['employee_id'], 'dept_id' => $pull['department_id']);
 				$this->data['user_name'] = $pull['user_name'];
 				$this->data['user_pass'] = '';
 				$this->data['list_module'] = array(
@@ -143,11 +143,10 @@ class Controller extends Common
 					
 						$user[$value] = in_array($value, $checked)  ? 1 : 0;
 					}
-					
+
 					list($user_status, $user_id) = $this->pdqa_model->add_user($user, $this->request('id'));
 
-					if(!$user_status)
-						header('Location: ' . base_url('module_master_user'));
+					// header('Location: ' . base_url('module_master_user'));
 				}
 			}
 
@@ -188,18 +187,35 @@ class Controller extends Common
 	}
 
 	function delete_login()
-	{}
+	{
+		$check = $this->pdqa_model->delete_user($this->input2('id'));
 
-	function show_standar_analisa()
+		if($check)
+			header('Location: ' . base_url('module_master_user'));
+	}
+
+	function module_master_standar_analisa()
 	{
 		session_start();
 
 		if(!empty($this->session('user_name')))
 		{
 			$this->data['user_name'] = $this->session('user_name');
-			$this->data['data_standar_analisa'] = $this->pdqa_standar_analisa();
-			$this->data['data_standar_analisa_items'] = $this->pdqa_standar_analisa_items();
-			$this->data['data_standar_analisa_items_size'] = $this->pdqa_standar_analisa_items_size();
+			$this->data['data_standar_analisa'] = $this->pdqa_model->get_master_standar_analisa()[1];
+			$this->data['data_standar_analisa_items'] = $this->pdqa_model->get_standar_analisa_items();
+			$this->data['data_standar_analisa_items_size'] = $this->_pdqa_standar_analisa_items_size();
+
+			if($this->input2('btn_search_login') !== null)
+			{
+				list($search_status, $search_data) = $this->pdqa_model->get_user(array(
+					'user_names'	=>	$this->input2('select_login_hidden') . "%"
+				));
+
+				// buggy
+				$this->data['data_login2'][1] = array($search_data);
+
+				$this->templates('view/show_login', $this->data);							
+			}
 
 			$this->templates('view/show_standar_analisa', $this->data);
 		}
@@ -212,9 +228,18 @@ class Controller extends Common
 		if(!empty($this->session('user_name')))
 		{
 			$this->data['user_name'] = $this->session('user_name');
-			$this->data['data_standar_analisa'] = $this->pdqa_standar_analisa();
-			$this->data['data_standar_analisa_items'] = $this->pdqa_standar_analisa_items();
-			$this->data['data_standar_analisa_items_size'] = $this->pdqa_standar_analisa_items_size();
+			$this->data['data_standar_analisa_items'] = $this->pdqa_model->get_standar_analisa_items();
+
+			if($this->input2('save_add_analisa') !== null)
+			{
+				var_dump($this->_merge_pdqa_standar_analisa_items(array('standar_analisa_item'))); die();
+
+				$check1 = $this->pdqa_model->add_user_module(array(
+					$this->_merge_pdqa_standar_analisa_items(array('standar_analisa_item'))
+				), $this->request('id'));
+
+				if($this->input2('save_add_analisa') !== null) {}
+			}
 
 			$this->templates('view/add_standar_analisa', $this->data);
 		}
@@ -228,6 +253,30 @@ class Controller extends Common
 		foreach($field as $fields)
 			foreach($data as $id => $value)
 				$tmp[] =  $value[$fields];
+
+		return $tmp;
+	}
+
+	function _pdqa_standar_analisa_items_size()
+	{
+		$temp = array();
+		foreach($this->pdqa_model->get_standar_analisa_items() as $value)
+		{
+			$temp[] = strtolower("{$value}_min");
+			$temp[] = strtolower("{$value}_max");
+		}
+ 		return $temp;
+	}
+
+	function _merge_pdqa_standar_analisa_items($addon = array())
+	{
+		$addons = (!empty($addon)) ? $addon : array();
+
+		$merge = array_merge($addons, $this->_pdqa_standar_analisa_items_size());
+
+		$tmp = array();
+		foreach($merge as $items)
+			$tmp[$items] = $this->input2($items);
 
 		return $tmp;
 	}

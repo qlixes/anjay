@@ -59,7 +59,7 @@
 						<td>
 							<div class="form-group">
 								<a class="btn btn-primary btn-block" href="<?= base_url('add_login') ?>?id=<?= $data['id'] ?>"><i class="fa fa-pencil"></i> <?= $label_btn_edit ?></a>
-								<a class="btn btn-danger btn-block" href="<?= base_url('delete_login') ?>?id=<?= $data['id'] ?>"><i class="fa fa-trash"></i> <?= $label_btn_delete ?></a>
+								<a href="<?= base_url('delete_login') ?>?id=<?= $data['id'] ?>" class="btn btn-danger btn-block"><i class="fa fa-trash"></i> <?= $label_btn_delete ?></a>
 							</div>
 						</td>
 					</tr>

@@ -13,6 +13,8 @@
 
 	<script src="<?= asset_url('js/jquery.cascadingdropdown.min.js') ?>"></script>
 
+	<script src="<?= asset_url('js/sweetalert2.min.js') ?>"></script>
+
 	<script>
 		$(document).ready(function() {
 
@@ -38,6 +40,23 @@
 	    	$('#select_user').change(function() {
 	    		$('#select_login_hidden').val($(this).find(':selected').text());
 	    	});
+
+	   //  	$('a#login_delete').click(function() {
+	   //  		var id = $(this).attr('data-id');
+	    		
+				// Swal({
+				//   title: 'Confirmation',
+				//   type: 'info',
+				//   html: 'Are you sure ?',
+				//   showCancelButton: true,
+				//   focusConfirm: true,
+				//   confirmButtonText: 'Yes',
+				// }).then((result) => {
+				// 	if(result.value) {
+				// 		$.post("<?= base_url('delete_login') ?>", {id: id});
+				// 	}
+				// });
+	   //  	});
 
 		});
 	</script>

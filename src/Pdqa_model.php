@@ -91,31 +91,39 @@ class Pdqa_model
 		return array($query->status(), $query->insertId());
 	}
 
-	function add_user_module($params = array(), $id = null)
-	{
-		if($id)
-		{
-			foreach($params as $key => $value)
-				$data[] = "$key='$value'";
-			$sql = "update tbl_user_module set " . implode($data, ',') . " where id = $id;";
-		} else {
-			foreach($params as $key => $value)
-			{
-				$field[] = $key; $values[] = "?";
-			}
-			$sql = "insert into tbl_user_module(" . implode($field,',') . ") values (" . implode($values, ',') . ")";
-		}
+	// function add_user_module($params = array(), $id = null)
+	// {
+	// 	if($id)
+	// 	{
+	// 		foreach($params as $key => $value)
+	// 			$data[] = "$key='$value'";
+	// 		$sql = "update tbl_user_module set " . implode($data, ',') . " where id = $id;";
+	// 	} else {
+	// 		foreach($params as $key => $value)
+	// 		{
+	// 			$field[] = $key; $values[] = "?";
+	// 		}
+	// 		$sql = "insert into tbl_user_module(" . implode($field,',') . ") values (" . implode($values, ',') . ")";
+	// 	}
 
-		$sql .= ";";
+	// 	$sql .= ";";
 
-		$query = $this->database->edit($sql, parse_array($params));
+	// 	// var_dump($sql); var_dump($params); die();
 
-		return array($query->status(), $query->insertId());
-	}
+	// 	$query = $this->database->edit($sql, parse_array($params));
+
+	// 	return array($query->status(), $query->insertId());
+	// }
 
 	function delete_user($id)
 	{
-		$sql = "update tbl_user set is_active = 0 where id = $id;";
+		$sql = "update tbl_user set is_active = 0 where id = ?";
+
+		$sql .= ";";
+
+		$query = $this->database->edit($sql, parse_array(array('id' => $id)));
+
+		return array($query->status(), $query->insertId());
 	}
 
 	function add_master_standar_analisa($params = array(), $id = null)
